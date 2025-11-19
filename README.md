@@ -1,286 +1,123 @@
-# NVIDIA Aerial cuBB - Claude Code Skills
+# Skills
+Skills are folders of instructions, scripts, and resources that Claude loads dynamically to improve performance on specialized tasks. Skills teach Claude how to complete specific tasks in a repeatable way, whether that's creating documents with your company's brand guidelines, analyzing data using your organization's specific workflows, or automating personal tasks.
 
-This repository contains specialized Claude Code skills for NVIDIA Aerial cuBB (cuPHY-CP) development, providing expert knowledge on 5G PHY layer processing, O-RAN fronthaul, and FAPI interfaces.
+For more information, check out:
+- [What are skills?](https://support.claude.com/en/articles/12512176-what-are-skills)
+- [Using skills in Claude](https://support.claude.com/en/articles/12512180-using-skills-in-claude)
+- [How to create custom skills](https://support.claude.com/en/articles/12512198-creating-custom-skills)
+- [Equipping agents for the real world with Agent Skills](https://anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)
 
-## Overview
+# About This Repository
 
-These skills enhance Claude Code's capabilities for developing and debugging NVIDIA Aerial SDK applications, with deep expertise in:
+This repository contains example skills that demonstrate what's possible with Claude's skills system. These examples range from creative applications (art, music, design) to technical tasks (testing web apps, MCP server generation) to enterprise workflows (communications, branding, etc.).
 
-- **O-RAN Fronthaul**: U-Plane packet structure, compression, I/Q scaling
-- **PRACH Processing**: Random access channel detection and MAC interface
-- **Physical Layer**: Signal processing pipelines and GPU optimization
-- **FAPI Interfaces**: 5G FAPI message formatting and PHY-MAC communication
+Each skill is self-contained in its own directory with a `SKILL.md` file containing the instructions and metadata that Claude uses. Browse through these examples to get inspiration for your own skills or to understand different patterns and approaches.
 
-## Available Skills
+The example skills in this repo are open source (Apache 2.0). We've also included the document creation & editing skills that power [Claude's document capabilities](https://www.anthropic.com/news/create-files) under the hood in the [`document-skills/`](./document-skills/) folder. These are source-available, not open source, but we wanted to share these with developers as a reference for more complex skills that are actively used in a production AI application.
 
-### 1. oran-uplane
-**File**: `.claude/skills/oran-uplane.md`
+**Note:** These are reference examples for inspiration and learning. They showcase general-purpose capabilities rather than organization-specific workflows or sensitive content.
 
-Expert on O-RAN U-Plane packet structure, I/Q level setting, BFP compression, and beta calculation.
+## Disclaimer
 
-**Topics Covered**:
-- O-RAN U-Plane packet hierarchy (Ethernet → VLAN → eCPRI → Section → PRB data)
-- Beta calculation formula and parameter impacts
-- BFP compression implementation
-- fs_offset_dl, exponent_dl, ref_dl parameter tuning
-- I/Q amplitude scaling and effective bit depth
+**These skills are provided for demonstration and educational purposes only.** While some of these capabilities may be available in Claude, the implementations and behaviors you receive from Claude may differ from what is shown in these examples. These examples are meant to illustrate patterns and possibilities. Always test skills thoroughly in your own environment before relying on them for critical tasks.
 
-**Use Cases**:
-- Debugging fronthaul packet generation
-- Tuning I/Q signal levels
-- Understanding compression artifacts
-- Optimizing dynamic range utilization
+# Example Skills
 
-### 2. fs-offset
-**File**: `.claude/skills/fs-offset.md`
+This repository includes a diverse collection of example skills demonstrating different capabilities:
 
-Specialist in fs_offset_dl calculation for achieving target effective bit depths in BFP-compressed signals.
+## Creative & Design
+- **algorithmic-art** - Create generative art using p5.js with seeded randomness, flow fields, and particle systems
+- **canvas-design** - Design beautiful visual art in .png and .pdf formats using design philosophies
+- **slack-gif-creator** - Create animated GIFs optimized for Slack's size constraints
 
-**Topics Covered**:
-- Effective bit depth calculation from fs_offset_dl
-- Relationship between fs_offset_dl, ref_dl, and beta_dl
-- Numerical examples for different configurations
-- Trade-offs between headroom and quantization noise
+## Development & Technical
+- **artifacts-builder** - Build complex claude.ai HTML artifacts using React, Tailwind CSS, and shadcn/ui components
+- **mcp-server** - Guide for creating high-quality MCP servers to integrate external APIs and services
+- **webapp-testing** - Test local web applications using Playwright for UI verification and debugging
 
-**Use Cases**:
-- Setting specific effective bit depths (e.g., 14 bits)
-- Maintaining signal quality across power levels
-- Compensating for ref_dl changes
+## Enterprise & Communication
+- **brand-guidelines** - Apply Anthropic's official brand colors and typography to artifacts
+- **internal-comms** - Write internal communications like status reports, newsletters, and FAQs
+- **theme-factory** - Style artifacts with 10 pre-set professional themes or generate custom themes on-the-fly
 
-### 3. pdsch-iq-scaling
-**File**: `.claude/skills/pdsch-iq-scaling.md`
+## Meta Skills
+- **skill-creator** - Guide for creating effective skills that extend Claude's capabilities
+- **template-skill** - A basic template to use as a starting point for new skills
 
-Expert on PDSCH signal processing pipeline from constellation mapping through beamforming to O-RAN transmission.
+# Document Skills
 
-**Topics Covered**:
-- Complete PDSCH IQ scaling pipeline
-- Beamforming weight normalization
-- Beta scaling application
-- BFP compression effects
-- End-to-end signal level tracking
+The `document-skills/` subdirectory contains skills that Anthropic developed to help Claude create various document file formats. These skills demonstrate advanced patterns for working with complex file formats and binary data:
 
-**Use Cases**:
-- Understanding PDSCH signal flow
-- Debugging beamforming issues
-- Analyzing compression impacts
-- Power control optimization
+- **docx** - Create, edit, and analyze Word documents with support for tracked changes, comments, formatting preservation, and text extraction
+- **pdf** - Comprehensive PDF manipulation toolkit for extracting text and tables, creating new PDFs, merging/splitting documents, and handling forms
+- **pptx** - Create, edit, and analyze PowerPoint presentations with support for layouts, templates, charts, and automated slide generation
+- **xlsx** - Create, edit, and analyze Excel spreadsheets with support for formulas, formatting, data analysis, and visualization
 
-### 4. ref-dl
-**File**: `.claude/skills/ref-dl-impact.md`
+**Important Disclaimer:** These document skills are point-in-time snapshots and are not actively maintained or updated. Versions of these skills ship pre-included with Claude. They are primarily intended as reference examples to illustrate how Anthropic approaches developing more complex skills that work with binary file formats and document structures.
 
-Specialist in ref_dl parameter impact on downlink signal processing and I/Q levels.
+# Try in Claude Code, Claude.ai, and the API
 
-**Topics Covered**:
-- ref_dl influence on beta_dl and signal amplitude
-- Interaction with fs_offset_dl
-- Power domain vs amplitude domain conversions
-- Practical configuration strategies
-
-**Use Cases**:
-- Adjusting downlink power levels
-- Understanding beta_dl behavior
-- Coordinating fs_offset_dl and ref_dl settings
-
-### 5. prach-processing (NEW)
-**File**: `.claude/skills/prach-processing.md`
-
-Expert on PRACH uplink processing chain from O-RAN U-Plane reception through GPU detection to FAPI RACH indication.
-
-**Topics Covered**:
-- Complete PRACH processing pipeline (O-RU → Fronthaul → GPU → FAPI → MAC)
-- PhyPrachAggr class and cuPHY PRACH RX API
-- GPU-accelerated preamble detection algorithms
-- FAPI RACH indication message construction
-- Timing advance and power estimation conversions
-- PRACH configuration (root sequence, ZCZ, formats)
-- Performance optimization and debugging
-
-**Use Cases**:
-- Understanding PRACH uplink flow
-- Debugging random access procedures
-- Tuning detection thresholds
-- Analyzing timing advance calculations
-- Optimizing GPU processing performance
-- Troubleshooting FAPI message formatting
-
-## Documentation
-
-Additional technical documentation:
-
-- **PRACH_PROCESSING_CHAIN.md**: Comprehensive technical documentation of the PRACH uplink processing chain, including architecture diagrams, API reference, performance metrics, and configuration details.
-
-## Installation
-
-### Prerequisites
-- [Claude Code](https://claude.com/claude-code) installed
-- NVIDIA Aerial SDK development environment
-
-### Setup
-
-1. Clone this repository to your Aerial development workspace:
-```bash
-cd /path/to/your/aerial/workspace
-git clone <repository-url> cuBB-skills
+## Claude Code
+You can register this repository as a Claude Code Plugin marketplace by running the following command in Claude Code:
+```
+/plugin marketplace add anthropics/skills
 ```
 
-2. Copy skills to your Claude Code skills directory:
-```bash
-# Option 1: Copy to project-specific skills
-cp -r cuBB-skills/.claude/skills/* .claude/skills/
+Then, to install a specific set of skills:
+1. Select `Browse and install plugins`
+2. Select `anthropic-agent-skills`
+3. Select `document-skills` or `example-skills`
+4. Select `Install now`
 
-# Option 2: Create symlink for automatic updates
-ln -s $(pwd)/cuBB-skills/.claude/skills ~/.claude/skills/aerial-cubb
+Alternatively, directly install either Plugin via:
+```
+/plugin install document-skills@anthropic-agent-skills
+/plugin install example-skills@anthropic-agent-skills
 ```
 
-3. Verify skills are loaded:
-```bash
-# In Claude Code
-/skills
-```
+After installing the plugin, you can use the skill by just mentioning it. For instance, if you install the `document-skills` plugin from the marketplace, you can ask Claude Code to do something like: "Use the PDF skill to extract the form fields from path/to/some-file.pdf"
 
-## Usage
+## Claude.ai
 
-Skills are automatically invoked by Claude Code when relevant topics are discussed. You can also explicitly invoke them:
+These example skills are all already available to paid plans in Claude.ai. 
 
-### Example: O-RAN U-Plane Questions
-```
-User: How do I calculate beta_dl for 14 effective bits?
-Claude: [Automatically invokes oran-uplane skill]
-```
+To use any skill from this repository or upload custom skills, follow the instructions in [Using skills in Claude](https://support.claude.com/en/articles/12512180-using-skills-in-claude#h_a4222fa77b).
 
-### Example: PRACH Processing Questions
-```
-User: Explain the PRACH uplink processing flow from O-RU to MAC
-Claude: [Automatically invokes prach-processing skill]
-```
+## Claude API
 
-### Example: Explicit Skill Invocation
-```
-User: /skill prach-processing
-User: How is timing advance calculated and converted to FAPI format?
-```
+You can use Anthropic's pre-built skills, and upload custom skills, via the Claude API. See the [Skills API Quickstart](https://docs.claude.com/en/api/skills-guide#creating-a-skill) for more.
 
-## Skill Development
+# Creating a Basic Skill
 
-### Adding New Skills
+Skills are simple to create - just a folder with a `SKILL.md` file containing YAML frontmatter and instructions. You can use the **template-skill** in this repository as a starting point:
 
-1. Create a new `.md` file in `.claude/skills/`
-2. Follow the template structure:
 ```markdown
 ---
-name: skill-name
-description: Brief description for automatic invocation
+name: my-skill-name
+description: A clear description of what this skill does and when to use it
 ---
 
-# Skill Title
+# My Skill Name
 
-You are an expert on...
+[Add your instructions here that Claude will follow when this skill is active]
 
-## Core Expertise
-[Detailed knowledge areas]
+## Examples
+- Example usage 1
+- Example usage 2
 
-## When to Use This Skill
-[Trigger conditions]
-
-## Response Guidelines
-[How to format responses]
+## Guidelines
+- Guideline 1
+- Guideline 2
 ```
 
-3. Test the skill with Claude Code
-4. Commit and push changes
+The frontmatter requires only two fields:
+- `name` - A unique identifier for your skill (lowercase, hyphens for spaces)
+- `description` - A complete description of what the skill does and when to use it
 
-### Skill Template Structure
+The markdown content below contains the instructions, examples, and guidelines that Claude will follow. For more details, see [How to create custom skills](https://support.claude.com/en/articles/12512198-creating-custom-skills).
 
-Each skill should include:
-- **Name and Description**: For automatic invocation
-- **Core Expertise**: Detailed technical knowledge organized by topic
-- **Code Examples**: Concrete implementations with file paths
-- **Formulas and Calculations**: Mathematical relationships with numerical examples
-- **Use Cases**: When to apply this knowledge
-- **Response Guidelines**: How to format answers
+# Partner Skills
 
-## Technical References
+Skills are a great way to teach Claude how to get better at using specific pieces of software. As we see awesome example skills from partners, we may highlight some of them here:
 
-### NVIDIA Aerial SDK
-- cuPHY API Documentation
-- cuBB Integration Guide
-- Aerial SDK Release Notes
-
-### 3GPP Specifications
-- TS 38.211: Physical channels and modulation
-- TS 38.212: Multiplexing and channel coding
-- TS 38.213: Physical layer procedures for control
-- TS 38.214: Physical layer procedures for data
-
-### O-RAN Specifications
-- O-RAN.WG4.CUS.0: O-RAN Fronthaul Control, User and Synchronization Plane Specification
-- O-RAN.WG4.IOT.0: O-RAN Fronthaul Interoperability Test Specification
-
-### Small Cell Forum
-- SCF-222: 5G FAPI: PHY API Specification
-
-## File Structure
-
-```
-cuBB/
-├── .claude/
-│   └── skills/
-│       ├── oran-uplane.md          # O-RAN U-Plane and I/Q scaling
-│       ├── fs-offset.md            # fs_offset_dl calculation
-│       ├── pdsch-iq-scaling.md     # PDSCH signal processing
-│       ├── ref-dl-impact.md        # ref_dl parameter impact
-│       └── prach-processing.md     # PRACH uplink processing (NEW)
-├── PRACH_PROCESSING_CHAIN.md       # Detailed PRACH documentation
-├── README.md                        # This file
-└── .gitignore                      # Git ignore patterns
-```
-
-## Contributing
-
-Contributions are welcome! Please:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/new-skill`)
-3. Add your skill following the template structure
-4. Test with Claude Code
-5. Commit your changes (`git commit -m 'Add new skill: skill-name'`)
-6. Push to the branch (`git push origin feature/new-skill`)
-7. Open a Pull Request
-
-### Contribution Guidelines
-
-- **Accuracy**: Ensure all technical information is accurate and references specific file paths/line numbers
-- **Examples**: Include concrete numerical examples and code snippets
-- **Completeness**: Cover the topic comprehensively with formulas, use cases, and troubleshooting
-- **Clarity**: Use clear explanations suitable for developers at various skill levels
-- **References**: Cite relevant specifications (3GPP, O-RAN, FAPI)
-
-## License
-
-This project is provided for use with NVIDIA Aerial SDK development.
-
-## Changelog
-
-### 2025-11-19
-- **Added**: `prach-processing.md` skill for PRACH uplink processing chain
-- **Added**: `PRACH_PROCESSING_CHAIN.md` comprehensive technical documentation
-- **Updated**: Repository structure with git initialization
-- **Added**: README.md with complete documentation
-
-### Previous
-- Initial release with O-RAN U-Plane, fs-offset, PDSCH IQ scaling, and ref_dl skills
-
-## Support
-
-For questions or issues:
-- Open an issue in this repository
-- Consult NVIDIA Aerial SDK documentation
-- Contact NVIDIA Aerial support team
-
-## Acknowledgments
-
-These skills are developed to support NVIDIA Aerial cuBB development and are based on:
-- NVIDIA Aerial SDK documentation and source code
-- 3GPP specifications for 5G NR
-- O-RAN Alliance fronthaul specifications
-- Small Cell Forum FAPI specifications
+- **Notion** - [Notion Skills for Claude](https://www.notion.so/notiondevs/Notion-Skills-for-Claude-28da4445d27180c7af1df7d8615723d0)
